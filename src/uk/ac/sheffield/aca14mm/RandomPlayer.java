@@ -41,7 +41,6 @@ public class RandomPlayer extends Player {
 			else if(move != null) {
 				moveStop = i;
 				moves.add(move);
-				return true;
 			}
 			++i;
 		}
@@ -62,7 +61,6 @@ public class RandomPlayer extends Player {
 		op.deletePiece(op.getBoard().getPiece(this.xN, this.yN));
         justMove();
 	}
-	
 	
 	@Override
 	public String toString() {

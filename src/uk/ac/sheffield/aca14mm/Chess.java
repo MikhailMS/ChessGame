@@ -19,7 +19,7 @@ public class Chess {
         TextDisplay display = new TextDisplay();
         //Initialization of new HumanPlayers.
         HumanPlayer player1 = new HumanPlayer("Player1",whiteSet,board);        
-        RandomPlayer player2 = new RandomPlayer("Player2",blackSet,board);        
+        AgressivePlayer player2 = new AgressivePlayer("Player2",blackSet,board);        
         //setting opponents
         player1.setOpponent(player2);
         player2.setOpponent(player1);

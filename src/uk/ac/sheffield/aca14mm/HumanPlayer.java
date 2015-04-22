@@ -4,7 +4,7 @@ import java.util.Iterator;
 import java.util.Scanner;
 /*
 Author - Mikhail Molotkov.
-Last update - 12/04/2015
+Last update - 22/04/2015
 */
 /*
 HumanPlayer class extends Player class to implement a player in a game Chess.
