@@ -25,7 +25,7 @@ public class TextDisplay implements Display {
                 else if(i==8)
                     System.out.print((j+1)+"|");
                 else if(data[i][j]==null)
-                    System.out.print("o ");
+                    System.out.print(". ");
                 else
                     System.out.print(data[i][j].toString()+" "); 
             }
@@ -37,6 +37,7 @@ public class TextDisplay implements Display {
             System.out.println("");
         }
     }
+    
     //converts numbers to letters to make text display look more like real game board.
     public char intToChar(int num) {
         switch(num){
