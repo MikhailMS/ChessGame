@@ -1,31 +1,29 @@
 package uk.ac.sheffield.aca14mm;
 
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
-
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+/*
+Author - Mikhail Molotkov.
+Last update - 28/04/2015
+*/
 public class GraphicDisplay extends JPanel implements Display {
 	
+	//Instances of class.
 	private Graphics2D cell ;
 	private Piece[][] piecesOnBoard;
 	private int swapColour = 1;
 	private int cellSize = 50;
 	private int xI=Toolkit.getDefaultToolkit().getScreenSize().height/10;
 	private int yI=Toolkit.getDefaultToolkit().getScreenSize().width/20;
+	
 	//Constructor of a board
-	public GraphicDisplay() {
-		setBackground(Color.yellow);
-	}
+	public GraphicDisplay() {}
 	
-	//Method adds graphic representation of pieces on board
 	@Override
-	public void showPiecesOnBoard(Piece[][] data) {
-				
-	}
+	public void showPiecesOnBoard(Piece[][] data) {}
 	
-	//changes cell's colour from step to step.
+	//Method changes cell's colour from step to step.
 	private void swapColourCell(int i) {
 		if (swapColour == 1) {
 			cell.setColor(Color.lightGray);
@@ -38,7 +36,7 @@ public class GraphicDisplay extends JPanel implements Display {
 		if (i==7) 
 			swapColour = -swapColour;
 	}
-	
+	//Method adds graphic representation of pieces on board
 	@Override
 	public void paintComponent(Graphics g) {
 		cell = (Graphics2D)g;
@@ -75,12 +73,12 @@ public class GraphicDisplay extends JPanel implements Display {
     				cell.draw(rect);  
     				if (piecesOnBoard[i][j]!=null) {
     					String str = ""+charToPiece(piecesOnBoard[i][j].getChar());
-    					if (j<2) {
-    						cell.setColor(Color.yellow);
+    					if(piecesOnBoard[i][j].getColour()==0) {
+    						cell.setColor(Color.black);
     						cell.drawString(str, xI+cellSize*j+cellSize/4-2, yI+cellSize*i+cellSize/2+5);
     					}
-    					if (j>=6) {
-    						cell.setColor(Color.black);
+    					if(piecesOnBoard[i][j].getColour()==1) {
+    						cell.setColor(Color.yellow);
     						cell.drawString(str, xI+cellSize*j+cellSize/4-2, yI+cellSize*i+cellSize/2+5);
     					}
     				}     				
@@ -98,13 +96,12 @@ public class GraphicDisplay extends JPanel implements Display {
             }
         }
 	}
-	
+	//Method sets pieces for a graphic representation.
 	public void setPieces(Piece[][] p) {
 		piecesOnBoard = p;
+		this.repaint();
 	}
-	
-	//converts numbers to letters to make text display look more like real game board.
-    
+	//Method converts numbers to letters to make display look more like real game board.   
 	private char intToChar(int num) {
         switch(num){
             case 1:
@@ -127,7 +124,7 @@ public class GraphicDisplay extends JPanel implements Display {
                 return 'e';
         }
     }
-	
+	//Method converts piece's name to a Unicode representation.
 	private char charToPiece(char ch) {
 		switch(ch) {
 		case 'p':
@@ -157,25 +154,5 @@ public class GraphicDisplay extends JPanel implements Display {
 		default:
 			return '.';	
 		}
-	}
-    
-    public static void main(String[] args) {
-		JFrame f = new JFrame();
-		
-		//Initialization of new board.
-        Board board = new Board();
-        //Initialization of new collections of pieces.
-        Pieces blackSet = new Pieces(board,0);
-        Pieces whiteSet = new Pieces(board,1);
-        //Initialization of new HumanPlayers.
-        HumanPlayer player1 = new HumanPlayer("Player1",whiteSet,board); 
-        HumanPlayer player2 = new HumanPlayer("Player2",blackSet,board);
-        
-        GraphicDisplay disp = new GraphicDisplay();
-        disp.setPieces(player1.getBoard().getData());
-		f.getContentPane().add(disp);
-		f.setSize(600,600);
-		f.setBackground(new Color(230,190,138));
-		f.setVisible(true);
 	}
 }
