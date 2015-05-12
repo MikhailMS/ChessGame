@@ -50,7 +50,7 @@ public abstract class Player {
 	  public Player getOpponent() {
 	    return opponent;
 	  }
-	//method returns pieces
+	  //method returns pieces
 	  public Pieces getPieces() {
 	    return pieces;
 	  }
@@ -76,7 +76,7 @@ public abstract class Player {
 	  public abstract boolean makeMove();
 	  //abstract method set moves.
 	  public abstract void getMove(String m);
-	  //abstract methods returns if the move will defeat opponents piece.
+	  //abstract method returns if the move will defeat opponents piece.
 	  public abstract boolean isPieceTaken();
 	  
 	  //method deletes piece

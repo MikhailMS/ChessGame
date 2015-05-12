@@ -8,12 +8,23 @@ import java.util.Enumeration;
 
 /*
 Author - Mikhail Molotkov.
-Last update - 02/05/2015
+Last update - 12/05/2015
+
+	MainWindow class extends JFrame class and represents the GUI for chess.
+	Consists of following methods:
+		MainWindow - constructor, takes one parameter which is GraphicDisplay object, which is chess board with pieces on.
+		isNull - private method takes one parameter which is Player object and returns true if that object has no connected board.
+		isSelected - private method takes one parameter which is ButtonGroup object and returns selected button from the button group.
+		setColour - private method, called from private class StartGame, takes one parameter which is Player object and sets colour accordingly to chosen button, which represents colour in GUI.
+		runGameAgainstHum - private method, called from private class MakeMove, takes two parameters which are Player objects and run a game logic.
+		runGameAgainstComp - private method, called from private class MakeMove, takes one parameter which is Player object and run a game logic.
+
 */
 public class MainWindow extends JFrame {
     
-    private final static int WIDTH = 800;
-    private final static int HEIGHT = 700;
+	//Instances of a class.
+    private final static int WIDTH = 900;
+    private final static int HEIGHT = 800;
     private Board board = new Board();
     private Pieces blackSet = new Pieces(board,0),whiteSet = new Pieces(board,1);
     private HumanPlayer player1 = new HumanPlayer("Player1",null,board);
@@ -37,21 +48,22 @@ public class MainWindow extends JFrame {
         //Set layout for container.
         pane.setLayout(new BorderLayout());
         
-        //Create text field and label for writing move and place it into container.
-        JLabel inputLabel = new JLabel("Enter your move ");
+        //Create text field and label for writing move.
+        JLabel inputLabel = new JLabel("Enter your move: ");
         inputText = new JTextField(5);
         //Button to confirm move.
         JButton makeMoveButton = new JButton("Make your move");
         makeMoveButton.addActionListener(new MakeMove());
-        //Then create panel to add these into.
+        //Then create panel to add button, label and text field  into it.
         JPanel move = new JPanel(new GridLayout(3,0));
         move.add(inputLabel);
         move.add(inputText);
         move.add(makeMoveButton);
         
-        //Create group of buttons
-        JLabel playerLabel = new JLabel("Choose your opponent.");
-        playerType = new ButtonGroup();        
+        //Create group of buttons.
+        JLabel playerLabel = new JLabel("Choose your opponent: ");
+        playerType = new ButtonGroup();   
+        //Then create set of button which represent opponent.
         humanPlayer = new JRadioButton("Human player");
         randomPlayer = new JRadioButton("Random player");
         aggressivePlayer = new JRadioButton("Aggressive player");
@@ -60,16 +72,17 @@ public class MainWindow extends JFrame {
         playerType.add(humanPlayer);
         playerType.add(randomPlayer);
         playerType.add(aggressivePlayer);
-        //Then add them to the panel.
+        //Create new panel to place these button on
         JPanel playerButtons = new JPanel();
         playerButtons.setLayout(new GridLayout(9,0));
+        //Then add them to the panel.
         playerButtons.add(playerLabel);
         playerButtons.add(humanPlayer);
         playerButtons.add(randomPlayer);
         playerButtons.add(aggressivePlayer);
         
-        //Create labels and buttons to chose colour for opponent.
-        JLabel colourSecondLabel = new JLabel("Choose opponent's colour.");
+        //Create label and buttons to chose colour for opponent.
+        JLabel colourSecondLabel = new JLabel("Choose opponent's colour: ");
         colourSecondPlayer = new ButtonGroup();      
         //whiteColour = new JRadioButton("White colour");
         blackColour = new JRadioButton("Black colour"); 
@@ -84,6 +97,7 @@ public class MainWindow extends JFrame {
         //Button to start game.
         startButton = new JButton("Start the game!");
         startButton.addActionListener(new StartGame());
+        //Add button to the panel.
         playerButtons.add(startButton);
         
         //Button to exit game.
@@ -103,7 +117,8 @@ public class MainWindow extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);              
     }
-    //method return true if player object has no board connected.
+    
+    //Method returns true if player object has no board connected.
     private boolean isNull(Player p) {
     	return (p.getBoard()==null);
     }  
@@ -119,7 +134,7 @@ public class MainWindow extends JFrame {
 	    return selectedButton;
     }
     
-    //Method sets a colour for players.
+    //Method sets a colour for players (in current version you cannot assign white colour to opponent;left it for further improvement.).
     private void setColour(Player player) {
 		switch(isSelected(colourSecondPlayer).getActionCommand()) {
 			case "White colour":
@@ -146,6 +161,7 @@ public class MainWindow extends JFrame {
     private boolean p1 = true;
     private boolean p2 = false;
     private void runGameAgainstHum(Player pl1, Player pl2) {
+    	//Initialize variables to stop game.
     	int player1Coll = pl1.getPieces().getNumPieces()-1;
     	int opponentColl = pl2.getPieces().getNumPieces()-1;
         char player1Col = pl1.getPieces().getPiece(0).getColourChar();
@@ -277,6 +293,7 @@ public class MainWindow extends JFrame {
     					JOptionPane.showMessageDialog(null,"You did not choose opponent!");
     					break;
     			} 
+    			//Assign colours.
     			if (!isNull(opponent1))
     				setColour(opponent1);
     			else if(!isNull(opponent2))

@@ -4,15 +4,17 @@ import java.util.ArrayList;
 
 /*
 Author - Mikhail Molotkov.
-Last update - 02/05/2015
+Last update - 11/05/2015
+
+	RandomPlayer class extends Player class and represents random player,
+	who makes random move.
+
 */
 
 public class RandomPlayer extends Player {
 	
 	//Declaration of variables.
-	private int moveStop = -1;
 	private ArrayList<Move> moves = new ArrayList<Move>();
-	private int pieceNum,moveNum;
 	private int xI,yI,xN,yN;
 	private boolean pieceTaken;
 	
@@ -22,41 +24,37 @@ public class RandomPlayer extends Player {
     }
 	//Method gets the possible move of a randomly chosen piece.
 	public void getMove(String m) {
-		while(moveStop<=0)
-			makeMove();
-		moveNum = (int)(Math.random()*(moves.size()-1));
-		xI = moves.get(moveNum).getFromX();
-		yI = moves.get(moveNum).getFromY();
-		xN = moves.get(moveNum).getToX();
-		yN = moves.get(moveNum).getToY();
-		pieceTaken = moves.get(moveNum).isTaken();
+		makeMove();
+		int moveNum = (int)(Math.random()*(moves.size()-1));
+		setCoor(moveNum);
 		setMove();
 		if(pieceTaken)
 			defeatPiece(this.getOpponent());
 		else
 			justMove();
-		moveStop = -1;
 		moves.clear();
 	}
 	//Method creates a list of all moves which are not null.
 	@Override
 	public boolean makeMove() {
-		pieceNum = (int)(Math.random()*(getPieces().getNumPieces()-1));
-		int i = 0;
-		for (Move move : getPieces().getPiece(pieceNum).availableMoves()) {			
-			if (move == null)
-				System.out.print("");
-			else if(move != null) {
-				moveStop = i;
-				moves.add(move);
+		for(int i=0;i<getPieces().getNumPieces();++i) {
+			for(Move m : getPieces().getPiece(i).availableMoves()) {
+				if (m != null)
+					moves.add(m);				
 			}
-			++i;
 		}
 		return false;
 	}
 	//Accessor returns true if player can take a piece.
     public boolean isPieceTaken() {return pieceTaken;}
-	
+	//Method sets coordinates of a move and boolean variable if opponents piece will be taken.
+    private void setCoor(int indexMove) {
+		xI = moves.get(indexMove).getFromX();
+		yI = moves.get(indexMove).getFromY();
+		xN = moves.get(indexMove).getToX();
+		yN = moves.get(indexMove).getToY();
+		pieceTaken = moves.get(indexMove).isTaken();
+	}
 	//Method moves piece.
 	private void justMove() {	
 		this.getBoard().getPiece(xI, yI).setPosition(xN, yN);

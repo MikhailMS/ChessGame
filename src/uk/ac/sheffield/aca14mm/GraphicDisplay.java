@@ -18,8 +18,7 @@ public class GraphicDisplay extends JPanel implements Display {
 	private int yI=Toolkit.getDefaultToolkit().getScreenSize().width/20;
 	
 	//Constructor of a board
-	public GraphicDisplay() {}
-	
+	public GraphicDisplay() {}	
 	@Override
 	public void showPiecesOnBoard(Piece[][] data) {}
 	
@@ -96,7 +95,7 @@ public class GraphicDisplay extends JPanel implements Display {
             }
         }
 	}
-	//Method sets pieces for a graphic representation.
+	//Method sets pieces for a graphic representation and repaint board.
 	public void setPieces(Piece[][] p) {
 		piecesOnBoard = p;
 		this.repaint();
